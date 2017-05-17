@@ -25,7 +25,9 @@ import up.scale.serializers.Protocols
 
 import scala.concurrent.ExecutionContext
 
-
+/**
+  * Created by danylee on 16/05/17.
+  */
 trait FlowResource extends Protocols {
 
   implicit def executionContext: ExecutionContext

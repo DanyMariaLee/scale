@@ -20,7 +20,9 @@ import akka.http.scaladsl.server.Route
 import up.scale.services.SalaryService
 import akka.http.scaladsl.server.Directives._
 
-
+/**
+  * Created by danylee on 16/05/17.
+  */
 trait GlassdoorResource {
 
   val salaryService: SalaryService
@@ -31,11 +33,11 @@ trait GlassdoorResource {
         parameter('job_title) { jobTitle =>
           pathEndOrSingleSlash {
             complete {
-              salaryService.getJob(jobTitle, ip)
+              salaryService.exact(jobTitle, ip)
             }
           } ~ path("related") {
             complete {
-              salaryService.getRelated(jobTitle, ip)
+              salaryService.related(jobTitle, ip)
             }
           }
         }

@@ -24,7 +24,9 @@ import up.scale.services.SalaryService
 
 import scala.concurrent.ExecutionContext
 
-
+/**
+  * Created by danylee on 16/05/17.
+  */
 trait ScaleRest extends GlassdoorResource {
 
   implicit val system: ActorSystem

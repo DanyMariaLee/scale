@@ -16,7 +16,9 @@
 
 package up.scale.domain.in
 
-
+/**
+  * Created by danylee on 16/05/17.
+  */
 case class JobResponse(jobTitle: String,
                        payCurrencyCode: String,
                        payMedian: Double,

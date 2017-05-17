@@ -33,7 +33,9 @@ import up.scale.routing.FlowResource
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import scala.concurrent.{ExecutionContext, Future}
 
-
+/**
+  * Created by danylee on 16/05/17.
+  */
 class SalaryService(implicit val executionContext: ExecutionContext,
                     implicit val system: ActorSystem,
                     implicit val materializer: Materializer) extends FlowResource {
@@ -46,25 +48,33 @@ class SalaryService(implicit val executionContext: ExecutionContext,
 
   lazy val gdFlow: Flow[HttpRequest, HttpResponse, Any] = createFlow(gdApi)
 
-  def getJob(jobTitle: String,
-             ip: RemoteAddress): Future[ToResponseMarshallable] = {
-    val jobResponse = getJobResponse(jobTitle, ip.toOption, gdFlow)
-    fetchExact(jobResponse).map[ToResponseMarshallable] {
+  def getJob(jobTitle: String, ip: Option[RemoteAddress] = None): Future[Either[String, Job]] = {
+    val jobResponse = getJobResponse(jobTitle, ip.flatMap(_.toOption), gdFlow)
+    fetchExact(jobResponse)
+  }
+
+  def getRelated(jobTitle: String, ip: Option[RemoteAddress] = None): Future[Either[String, List[Job]]] = {
+    val jobResponse = getJobResponse(jobTitle, ip.flatMap(_.toOption), gdFlow)
+    fetchRelated(jobResponse)
+  }
+
+  def exact(jobTitle: String,
+            ip: RemoteAddress): Future[ToResponseMarshallable] = {
+    getJob(jobTitle, Option(ip)).map[ToResponseMarshallable] {
       case Right(job) => SuccessfulResponse(Left(job))
       case Left(msg) => FailedResponse(msg)
     }
   }
 
-  def getRelated(jobTitle: String,
-                 ip: RemoteAddress): Future[ToResponseMarshallable] = {
-    val jobResponse = getJobResponse(jobTitle, ip.toOption, gdFlow)
-    fetchRelated(jobResponse).map[ToResponseMarshallable] {
+  def related(jobTitle: String,
+              ip: RemoteAddress): Future[ToResponseMarshallable] = {
+    getRelated(jobTitle, Option(ip)).map[ToResponseMarshallable] {
       case Right(related) => SuccessfulResponse(Right(related))
       case Left(msg) => FailedResponse(msg)
     }
   }
 
-  def getJobResponse(jobTitle: String,
+  protected def getJobResponse(jobTitle: String,
                      ip: Option[InetAddress] = None,
                      flow: Flow[HttpRequest, HttpResponse, Any]): Future[Either[String, JobResponse]] = {
     val salaryPath = getSalaryPath(jobTitle, ip)
@@ -73,7 +83,7 @@ class SalaryService(implicit val executionContext: ExecutionContext,
     fetchJobResponse(response)
   }
 
-  def fetchJobResponse(httpResponse: Future[HttpResponse]): Future[Either[String, JobResponse]] = {
+  protected def fetchJobResponse(httpResponse: Future[HttpResponse]): Future[Either[String, JobResponse]] = {
     httpResponse.flatMap { response =>
       response.status match {
         case OK => Unmarshal(response.entity).to[GlassdoorResponse].map {
@@ -87,7 +97,7 @@ class SalaryService(implicit val executionContext: ExecutionContext,
     }
   }
 
-  def getSalaryPath(jobTitle: String,
+  protected def getSalaryPath(jobTitle: String,
                     ip: Option[InetAddress] = None): String = {
     val clientIp = ip.map(_.getCanonicalHostName).getOrElse("8.8.8.8")
     val jtEncoded = URLEncoder.encode(jobTitle.toLowerCase, "UTF-8")
@@ -109,7 +119,7 @@ class SalaryService(implicit val executionContext: ExecutionContext,
     }
   }
 
-  def fetchJobs(body: JobResponse): List[Job] = {
+  protected def fetchJobs(body: JobResponse): List[Job] = {
     val currency = body.payCurrencyCode
     body.results.map(r => Job(r.nextJobTitle, r.medianSalary, currency))
   }

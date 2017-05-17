@@ -16,5 +16,7 @@
 
 package up.scale.domain.out
 
-
+/**
+  * Created by danylee on 16/05/17.
+  */
 case class Job(title: String, payMedian: Double, payCurrencyCode: String)

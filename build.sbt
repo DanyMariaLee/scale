@@ -33,10 +33,9 @@ val copyright = headers := Map(
 
 val setts = Seq(
   organization := "com.github.danymarialee",
-  version := "1.0",
+  version := "1.0.0",
   scalaVersion := Versions.scala,
   crossScalaVersions := Versions.scalas,
-  // Doge
   releaseCrossBuild := false,
   scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8"),
   copyright,
@@ -74,11 +73,12 @@ val setts = Seq(
       Some("scm:git:git@github.com:DanyMariaLee/scale.git")
     )
   ),
-  credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", "", ""),
-  mainClass in assembly := Some("up.scale.Main")
+  credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", "besselfunction", "google123"),
+  mainClass in assembly := Some("up.scale.Main"),
+  assemblyJarName in assembly := "scale.jar"
 )
 
 lazy val root =
   Project(id = "scale", base = file("."))
     .settings(setts)
-    .settings(libraryDependencies ++= commonLibs(scalaVersion.value))
+    .settings(libraryDependencies ++= allLibs(scalaVersion.value))

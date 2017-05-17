@@ -23,7 +23,9 @@ import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
 import scala.concurrent.duration._
 
-
+/**
+  * Created by danylee on 16/05/17.
+  */
 object Main extends App with ScaleRest {
 
   val config = ConfigFactory.load()

@@ -20,7 +20,9 @@ import spray.json.DefaultJsonProtocol
 import up.scale.domain.in.{GlassdoorResponse, JobResponse, RelatedJob}
 import up.scale.domain.out.{FailedResponse, Job, SuccessfulResponse}
 
-
+/**
+  * Created by danylee on 16/05/17.
+  */
 trait Protocols extends DefaultJsonProtocol {
 
   implicit val jResultFormat = jsonFormat2(RelatedJob.apply)

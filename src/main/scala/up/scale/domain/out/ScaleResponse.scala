@@ -16,7 +16,9 @@
 
 package up.scale.domain.out
 
-
+/**
+  * Created by danylee on 16/05/17.
+  */
 case class FailedResponse(message: String, code: Int = 1)
 
 case class SuccessfulResponse(data: Either[Job, List[Job]], code: Int = 0)
