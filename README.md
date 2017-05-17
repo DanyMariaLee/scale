@@ -52,7 +52,8 @@ curl http://localhost:9000/salary?job_title=driver
        "payCurrencyCode": "USD"
    },
    "code": 0
-}```
+}
+```
 
 Or for related job titles
 ```sbtshell
