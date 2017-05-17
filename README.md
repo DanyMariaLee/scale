@@ -1,4 +1,3 @@
-
 #Scale
  ![alt text](src/main/resources/logo.png)
 
@@ -12,7 +11,7 @@ The service itself takes median salary for the requested job title or related jo
 - publishing to [Sonatype](oss.sonatype.org)
 
 
-###application.conf
+### application.conf
 Since Glassdoor provides information only for registered application we need to add keys to apps configuration.
 To get keys go to [Glassdoor API page](www.glassdoor.com/developer/index.htm) to register your application. 
 Configuration in your app.conf file will look like this
@@ -23,7 +22,7 @@ glassdoor {
 }
  ```
  
-###build.sbt 
+### build.sbt 
 
 If you want to use it as an external library by calling a service directly or adding the routes
 ```scala
@@ -31,7 +30,7 @@ If you want to use it as an external library by calling a service directly or ad
  ```
 
 
-###Usage by getting the code from github
+### Usage by getting the code from github
 ```sbtshell
 sbt
 > run
@@ -54,7 +53,8 @@ curl http://localhost:9000/salary?job_title=driver
        "payCurrencyCode": "USD"
    },
    "code": 0
-}```
+}
+```
 
 Or for related job titles
 ```sbtshell
@@ -84,7 +84,7 @@ curl http://localhost:9000/salary/related?job_title=driver
 }
 ```
 
-###Usage by calling with SalaryService
+### Usage by calling with SalaryService
 The SalaryService requires 
 
 - ExecutionContext
@@ -102,12 +102,12 @@ val exact = service.getJob("writer") // => Job
 val related = service.getRelated("writer") // => List[Job]
 ```
 
-###Domain
+### Domain
 ```scala
 case class Job(title: String, payMedian: Double, payCurrencyCode: String)
 ```
 
-###Testing
+### Testing
 ```sbtshell
 sbt
 > test
@@ -137,5 +137,5 @@ sbt
 
 If you have any questions my Twitter handle [@besseifunction](https://twitter.com/besseifunction)
 
-###Have fun!
+### Have fun!
 
