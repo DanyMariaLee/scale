@@ -1,4 +1,6 @@
+
 #Scale
+ ![alt text](src/main/resources/logo.png)
 
 An example of [Akka HTTP 2.5.1](http://akka.io/docs/?_ga=2.132477901.2114488730.1495028763-1586046796.1493973640) library usage for building a REST service.
 The service itself takes median salary for the requested job title or related jobs from Glassdoor API. 
