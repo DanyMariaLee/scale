@@ -73,7 +73,7 @@ val setts = Seq(
       Some("scm:git:git@github.com:DanyMariaLee/scale.git")
     )
   ),
-  credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", "besselfunction", "google123"),
+  credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", "", ""),
   mainClass in assembly := Some("up.scale.Main"),
   assemblyJarName in assembly := "scale.jar"
 )
